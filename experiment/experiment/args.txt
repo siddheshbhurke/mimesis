@@ -1,0 +1,4 @@
+content_dir:C:\Users\Siddhesh\Desktop\nst-project\content_data_sample
+style_dir:C:\Users\Siddhesh\Desktop\nst-project\style_data_sample
+vgg:C:\Users\Siddhesh\Desktop\nst-project\vgg_normalzed.pth
+experiment:experiment
