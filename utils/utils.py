@@ -9,7 +9,7 @@ class ImageFolderDataset(Dataset):
         self.root = root
         self. transform = transform
         self.files = list(os.listdir(root))
-        self.files = [p for p in self.files if p.ensdswith('.jpg', '.png''.jpeg')]
+        self.files = [p for p in self.files if p.endswith(('.jpg', '.png','.jpeg'))]
 
 
     def __len__(self):
@@ -25,19 +25,19 @@ class ImageFolderDataset(Dataset):
         return image
     
 
-    def get_transform(size, crop, final_size):
-        transform_list = []
-        if size > 0:
-            transform_list.append(transforms.Resize(size))
+def get_transform(size, crop, final_size):
+    transform_list = []
+    if size > 0:
+        transform_list.append(transforms.Resize(size))
         
-        if crop:
-            transform_list.append(transforms.RandomCrop(size))
+    if crop:
+        transform_list.append(transforms.RandomCrop(size))
 
-        else: 
-            transform_list.append(transforms.Resize(final_size))
+    else: 
+        transform_list.append(transforms.Resize(final_size))
 
-        transform_list.append(transforms.ToTensor())
-        return transforms.Compose(transform_list)
+    transform_list.append(transforms.ToTensor())
+    return transforms.Compose(transform_list)
 
         
 

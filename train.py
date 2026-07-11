@@ -3,6 +3,9 @@ from pathlib import Path
 import argparse
 from utils.utils import ImageFolderDataset, get_transform
 from torch.utils.data import DataLoader
+from utils.models import VGGEncoder, Decoder
+import torch.optim as optim
+
 def parse_arguments():
     parser = argparse.ArgumentParser()
 
@@ -30,7 +33,16 @@ def parse_arguments():
     parser.add_argument('--crop', action = 'store_true' , default = True,
                            help = "Crop Image")
 
+    parser.add_argument('--batch_size', type=int, default=5)
 
+    parser.add_argument('--lr', type=float, default=1e-4,
+                        help = 'Learning Rate')
+
+    parser.add_argument('--lr_decay', type=float, default=5e-5,
+                        help='Learning rate decay')
+    
+    parser.add_argument('--epochs', type=int, default=1,
+                        help='Number of epochs')
 
     return parser.parse_args()
 
@@ -61,15 +73,29 @@ def main():
     content_dataloader = DataLoader(content_dataset,
                                     batch_size = args.batch_size,
                                     shuffle =True,
-                                    pim_memory = True,
+                                    pin_memory = True,
                                      drop_last = True )
     
 
     style_dataloader = DataLoader(style_dataset,
                                     batch_size = args.batch_size,
                                     shuffle =True,
-                                    pim_memory = True,
+                                    pin_memory = True,
                                      drop_last = True )
+
+
+    print('Number of batches in content dataset',len(content_dataloader))
+    print('Number of batches in style dataset',len(style_dataloader))
+
+
+    encoder = VGGEncoder(args.vgg).to(device)
+    decoder = Decoder().to(device)
+
+    optimizer = optim.Adam(decoder.parameters(), lr=args.lr)
+    scheduler = optim.lr_scheduler.LambdaLR(
+        optimizer,
+        lr_lambda = lambda epoch:  1.0 / (1.0 + args.lr_decay * epoch)
+    )
 
 
 
