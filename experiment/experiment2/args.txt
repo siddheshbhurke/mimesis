@@ -1,9 +1,0 @@
-content_dir:C:\Users\Siddhesh\Desktop\nst-project\content_data_sample
-style_dir:C:\Users\Siddhesh\Desktop\nst-project\style_data_sample
-vgg:C:\Users\Siddhesh\Desktop\nst-project\vgg_normalzed.pth
-experiment:experiment2
-final_size:512
-content_size:256
-style_size:256
-crop:True
-batch_size:5

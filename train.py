@@ -174,14 +174,19 @@ def main():
             running_closs += loss_c.item()
             running_sloss += loss_s.item()
         
-
+            progress_bar.set_description(
+                f"Loss:{loss.item():.4f} "
+                f"Content:{loss_c.item():.4f} "
+                f"Style:{loss_s.item():.4f}"
+            )
         scheduler.step()
         
-        progress_bar.set_description(f'Loss:{loss.item():4f}, Content Loss: {loss_c.item():4f}, Style Loss: {loss_s.item():4f}')
+        
+        num_batches = min(len(content_dataloader), len(style_dataloader))
 
-        running_loss /= len(content_dataloader)
-        running_closs /= len(content_dataloader)
-        running_sloss /= len(content_dataloader)
+        running_loss /= num_batches
+        running_closs /= num_batches
+        running_sloss /= num_batches
 
         if (epoch+1) % args.log_interval == 0:
             tqdm.write(f'Epoch {epoch+1}: Loss:{running_loss:4f}, Content Loss: {running_closs:4f}, Style Loss: {running_sloss:4f}')
