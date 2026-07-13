@@ -1,8 +1,10 @@
 from torch.utils.data import Dataset
 
 import os
-from PIL import Image
+from PIL import Image, ImageFile
 from torchvision import transforms
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 class ImageFolderDataset(Dataset):
     def __init__(self, root, transform= None):
         super(ImageFolderDataset, self).__init__()
