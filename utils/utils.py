@@ -1,5 +1,4 @@
 from torch.utils.data import Dataset
-from pathlib import Path
 
 import os
 from PIL import Image
@@ -17,7 +16,7 @@ class ImageFolderDataset(Dataset):
         return len(self.files)
     
     def __getitem__(self, index):
-        image_path = Path(self.root / self.files[index])
+        image_path = os.path.join(self.root, self.files[index])
         image = Image.open(image_path).convert('RGB')
         
         if self.transform:

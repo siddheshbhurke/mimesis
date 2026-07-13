@@ -120,7 +120,7 @@ def main():
         batch_size=args.batch_size,
         shuffle=True,
         pin_memory=torch.cuda.is_available(),
-        drop_last=False
+        drop_last=True
     )
 
     style_dataloader = DataLoader(
@@ -128,7 +128,7 @@ def main():
         batch_size=args.batch_size,
         shuffle=True,
         pin_memory=torch.cuda.is_available(),
-        drop_last=False
+        drop_last=True
     )
 
     if len(content_dataloader) == 0 or len(style_dataloader) == 0:
