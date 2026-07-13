@@ -18,13 +18,20 @@ class ImageFolderDataset(Dataset):
         return len(self.files)
     
     def __getitem__(self, index):
-        image_path = os.path.join(self.root, self.files[index])
-        image = Image.open(image_path).convert('RGB')
-        
-        if self.transform:
-            image = self.transform(image)
+        while True:
+            image_path = os.path.join(self.root, self.files[index])
 
-        return image
+            try:
+                image = Image.open(image_path).convert("RGB")
+
+                if self.transform:
+                    image = self.transform(image)
+
+                return image
+
+            except Exception as e:
+                print(f"Skipping corrupted image: {image_path}")
+                index = (index + 1) % len(self.files)
     
 
 def get_transform(size, crop, final_size):
